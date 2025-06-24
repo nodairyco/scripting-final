@@ -1,0 +1,72 @@
+.categoryTitle {
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--text-color-1);
+    margin-bottom: 20px;
+    line-height: 160%;
+}
+
+.clothesContainer {
+    grid-gap: 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    margin-top: 2rem;
+}
+
+.clothesCard, .clothesCardOutOfStock {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: all 0.3s ease;
+    width: 100%;
+    padding: 10px;
+    position: relative;
+}
+
+.clothesCard:hover {
+    cursor: pointer;
+    box-shadow: 0px 4px 35px 0px #A8ACB030;
+    transform: translateY(4px);
+}
+
+.clothesCardOutOfStock .cardImg {
+    filter: grayscale(60%);
+    opacity: 0.5;
+}
+
+.clothesCardOutOfStock p {
+    color: var(--text-out-of-stock);
+    margin: 0 0 10px 0;
+}
+
+.clothesCardOutOfStockText {
+    position: absolute;
+    left: calc(100% / 2);
+    transform: translateX(-50%);
+    top: calc(300px / 2);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--text-out-of-stock);
+}
+
+.cardImg {
+    height: 300px;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+.clothesCard p {
+    margin: 0 0 10px 0;
+}
+
+.cardDetailsNameContainer {
+    font-weight: 300;
+    font-size: 18px;
+}
+
+.cardDetailsPriceContainer {
+    font-weight: 400;
+    font-size: 18px;
+}
