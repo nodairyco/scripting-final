@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import css from './Home.module.css'
 import outerCss from '../App.module.css'
-import {clothingContext} from "../App.jsx";
+import {context} from "../App.jsx";
 
 export default function Home({currency}) {
 
@@ -13,7 +13,7 @@ export default function Home({currency}) {
         setMenClothing,
         childrenClothing,
         setChildrenClothing
-    } = useContext(clothingContext)
+    } = useContext(context)
 
     const params = useParams()
     const getCategoryTitle = (category) => {
@@ -60,6 +60,7 @@ export default function Home({currency}) {
 
 function ClothesCard({clothing, currency, category}) {
     const navigate = useNavigate()
+    const [activateSizeList, setActivateSizeList] = useState(false)
     const calculatePrice = (price, currency) => {
         switch (currency) {
             case 'euro':
@@ -91,15 +92,70 @@ function ClothesCard({clothing, currency, category}) {
              onClick={() => {
                  navigateFunction()
              }}>
-            <img src={clothing.image} className={css.cardImg}/>
+            <img src={clothing.image} className={css.cardImg} alt='clothing'/>
             {
                 isItOutOfStock(clothing.stock) &&
                 <div className={css.clothesCardOutOfStockText}>
                     OUT OF STOCK
                 </div>
             }
+            <div className={css.addToCartBtn} onClick={(e) => {
+                e.stopPropagation()
+                setActivateSizeList(!activateSizeList)
+            }}>
+                {
+                    activateSizeList &&
+                    <SizeList clothing={clothing}/>
+                }
+                <img alt='empty cart icon' src='/EmptyCart.svg'/>
+            </div>
             <p className={css.cardDetailsNameContainer}>{clothing.name}</p>
             <p className={css.cardDetailsPriceContainer}>{calculatePrice(clothing.price, currency)}</p>
+        </div>
+    )
+}
+
+function SizeList({clothing}) {
+
+    const [chosenSize, setChosenSize] = useState('')
+    const {updateCartItems} = useContext(context)
+    
+    const handleSizeChoosing = (size) => {
+        if (size !== chosenSize) {
+            setChosenSize(size)
+        }
+    }
+    
+    const handleAddingToCart = () => {
+        if (chosenSize === '') {
+            return
+        } 
+        
+        updateCartItems({...clothing, quantity:1, chosenSize: chosenSize})
+    }
+
+    return (
+        <div className={css.chooseSizeContainer}>
+            <p>CHOOSE A SIZE</p>
+            <div className={css.sizeListContainer}>
+                {
+                    clothing.availableSize.map((size, index) => {
+                        return (
+                            <a key={index} className={chosenSize === size ? css.sizeBtnChosen : css.sizeBtn}
+                               onClick={(e) => {
+                                   e.stopPropagation()
+                                   handleSizeChoosing(size)
+                               }}>
+                                {size}
+                            </a>
+                        )
+                    })
+                }
+            </div>
+            <a className={css.finalize} onClick={() => handleAddingToCart()}>
+                ADD TO CART
+            </a>
+            <div className={css.arrowDiv}/>
         </div>
     )
 }

@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
 import css from './TopBar.module.css'
 import {Link, useLocation} from "react-router-dom";
-import {cartContext, currencyContext} from "../App.jsx";
+import {context} from "../App.jsx";
 
 
 export default function TopBar() {
-    const {currency, setCurrency} = useContext(currencyContext)
+    const {currency, setCurrency, cartItems} = useContext(context)
     const [focusedCurrencyChange, setFocusedCurrencyChange] = useState(false);
     const [activateShoppingCart, setActivateShoppingCart] = useState(false);
     const location = useLocation()
@@ -82,6 +82,12 @@ export default function TopBar() {
                              setActivateShoppingCart(!activateShoppingCart)
                          }}/>
                     {
+                        getTotalItems(cartItems) > 0 &&
+                        <div className={css.shoppingCartQuantity}>
+                            {getTotalItems(cartItems)}
+                        </div>
+                    }
+                    {
                         activateShoppingCart &&
                         <DisplayCart/>
                     }
@@ -99,16 +105,7 @@ export default function TopBar() {
 }
 
 function DisplayCart() {
-    const {cartItems, setCartItems} = useContext(cartContext)
-    const {currency} = useContext(currencyContext)
-
-    const getTotalItems = (cartItems) => {
-        let total = 0
-        for (let i = 0; i < cartItems.length; i++) {
-            total += cartItems[i].quantity
-        }
-        return total
-    }
+    const {cartItems, setCartItems, currency, updateCartItems} = useContext(context)
 
     function getPrice(price, currency) {
         switch (currency) {
@@ -146,6 +143,61 @@ function DisplayCart() {
         setCartItems(updatedCartItems);
     }
 
+    function mapItemSize(size, index, item) {
+
+        let isCurrentSizeChosen = item.chosenSize === size
+
+        const updateChosenSize = (newSize) => {
+            if (isCurrentSizeChosen) {
+                return
+            }
+
+            let lst =
+                cartItems.map((itemToUpdate) => {
+                    if (itemToUpdate.id === item.id)
+                        return {...itemToUpdate, chosenSize: newSize}
+
+                    return itemToUpdate
+                })
+            setCartItems(lst)
+        }
+
+        return (
+            <a key={index} className={
+                isCurrentSizeChosen ?
+                    css.cartItemSizeBtnChosen : css.cartItemSizeBtn
+            } onClick={() => {
+                if (isCurrentSizeChosen) return
+
+                const existingItemIndex = cartItems.findIndex(
+                    (x) => x.id === item.id && x.chosenSize === size
+                );
+
+                if (existingItemIndex !== -1) {
+                    const updatedCartItems = [...cartItems];
+
+                    const currentItemIndex = cartItems.findIndex(
+                        (x) => x.id === item.id && x.chosenSize === item.chosenSize
+                    );
+
+                    if (currentItemIndex !== -1) {
+                        updatedCartItems[existingItemIndex].quantity += updatedCartItems[currentItemIndex].quantity;
+                        updatedCartItems.splice(currentItemIndex, 1);
+                    }
+
+                    setCartItems(updatedCartItems);
+                    return
+                }
+                updateChosenSize(size)
+            }}
+            >
+                {
+                    size
+                }
+            </a>
+        )
+    }
+
     return (
         <div className={css.shoppingCartOverlay}>
             <div className={css.cartHeader}>
@@ -172,37 +224,9 @@ function DisplayCart() {
                                         </p>
                                         <div className={css.cartItemSizeControlList}>
                                             {
-                                                item.availableSize.map((size, index) => {
-
-                                                    let isCurrentSizeChosen = item.chosenSize === size
-
-                                                    const updateChosenSize = (newSize) => {
-                                                        if (isCurrentSizeChosen) {
-                                                            return
-                                                        }
-
-
-                                                        let lst =
-                                                            cartItems.map((itemToUpdate) => {
-                                                                if (itemToUpdate.id === item.id)
-                                                                    return {...itemToUpdate, chosenSize: newSize}
-
-                                                                return itemToUpdate
-                                                            })
-                                                        setCartItems(lst)
-                                                    }
-
-                                                    return (
-                                                        <a key={index} className={
-                                                            isCurrentSizeChosen ?
-                                                                css.cartItemSizeBtnChosen : css.cartItemSizeBtn
-                                                        } onClick={() => {
-                                                            updateChosenSize(size)
-                                                        }}>
-                                                            {size}
-                                                        </a>
-                                                    )
-                                                })
+                                                item.availableSize.map((size, index) =>
+                                                    mapItemSize(size, index, item)
+                                                )
                                             }
                                         </div>
                                     </div>
@@ -248,6 +272,15 @@ function DisplayCart() {
             </div>
         </div>
     )
+}
+
+const getTotalItems = (cartItems
+) => {
+    let total = 0
+    for (let i = 0; i < cartItems.length; i++) {
+        total += cartItems[i].quantity
+    }
+    return total
 }
 
 const getCurrency = (currency) => {

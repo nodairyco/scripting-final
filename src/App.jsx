@@ -1,11 +1,9 @@
 import {createContext, lazy, Suspense, useState} from 'react'
-import {Navigate, Route, Routes} from "react-router-dom"
+import {Navigate, Route, Routes, UNSAFE_DataRouterContext} from "react-router-dom"
 import TopBar from "./modules/TopBar.jsx"
 import css from './App.module.css'
 
-export const cartContext = createContext()
-export const clothingContext = createContext()
-export const currencyContext = createContext()
+export const context = createContext()
 
 function App() {
 
@@ -15,22 +13,43 @@ function App() {
     const [cartItems, setCartItems] = useState(defaultCartItems)
     const [womenClothing, setWomenClothing] = useState(womensClothing)
 
+    const updateCartItems = (newItem) => {
+
+        if (!cartItems.find((item) => item.id === newItem.id && item.chosenSize === newItem.chosenSize)) {
+            setCartItems([...cartItems, newItem])
+            return
+        }
+
+        const updatedList = cartItems.map((item) => {
+            if (item.id === newItem.id && item.chosenSize === item.chosenSize) {
+                return {...item, quantity: item.quantity + newItem.quantity}
+            }
+            return item
+        })
+
+        setCartItems(updatedList)
+    }
+
     return (
         <>
-            <currencyContext.Provider value={{currency, setCurrency}}>
-                <clothingContext.Provider value={{womenClothing, setWomenClothing}}>
-                    <cartContext.Provider value={{cartItems, setCartItems}}>
-                        <TopBar currency={currency} setCurrency={setCurrency}/>
-                        <Suspense fallback={<LoadingComponent/>}>
-                            <Routes>
-                                <Route path='/clothes/:category' element={<Home currency={currency}/>}/>
-                                <Route path='/' element={<Navigate to='/clothes/women'/>}/>
-                                <Route path='/clothes/:category/:id' element={<ProductDetails/>}/>
-                            </Routes>
-                        </Suspense>
-                    </cartContext.Provider>
-                </clothingContext.Provider>
-            </currencyContext.Provider>
+            <context.Provider value={{
+                cartItems,
+                setCartItems,
+                currency,
+                setCurrency,
+                womenClothing,
+                setWomenClothing,
+                updateCartItems
+            }}>
+                <TopBar currency={currency} setCurrency={setCurrency}/>
+                <Suspense fallback={<LoadingComponent/>}>
+                    <Routes>
+                        <Route path='/clothes/:category' element={<Home currency={currency}/>}/>
+                        <Route path='/' element={<Navigate to='/clothes/women'/>}/>
+                        <Route path='/clothes/:category/:id' element={<ProductDetails/>}/>
+                    </Routes>
+                </Suspense>
+            </context.Provider>
         </>
     )
 }
@@ -118,7 +137,7 @@ const defaultCartItems = [
 export default App
 
 
-function LoadingComponent(){
+function LoadingComponent() {
     return (
         <div className={css.loadingDiv}>
             Loading...
