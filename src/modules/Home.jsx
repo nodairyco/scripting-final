@@ -131,7 +131,7 @@ function SizeList({clothing}) {
             return
         } 
         
-        updateCartItems({...clothing, quantity:1, chosenSize: chosenSize})
+        updateCartItems({...clothing, quantity:1, chosenSize: chosenSize}, chosenSize)
     }
 
     return (

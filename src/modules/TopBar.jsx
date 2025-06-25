@@ -130,7 +130,7 @@ function DisplayCart() {
 
     const updateQuantity = (item, bool) => {
         let updatedCartItems = cartItems.map(cartItem => {
-            if (cartItem.id === item.id) {
+            if (cartItem.id === item.id && cartItem.chosenSize === item.chosenSize) {
                 if (cartItem.quantity > 0)
                     return {...cartItem, quantity: bool ? cartItem.quantity + 1 : cartItem.quantity - 1}
                 if (cartItem.quantity === 0 && !bool)
@@ -168,26 +168,7 @@ function DisplayCart() {
                     css.cartItemSizeBtnChosen : css.cartItemSizeBtn
             } onClick={() => {
                 if (isCurrentSizeChosen) return
-
-                const existingItemIndex = cartItems.findIndex(
-                    (x) => x.id === item.id && x.chosenSize === size
-                );
-
-                if (existingItemIndex !== -1) {
-                    const updatedCartItems = [...cartItems];
-
-                    const currentItemIndex = cartItems.findIndex(
-                        (x) => x.id === item.id && x.chosenSize === item.chosenSize
-                    );
-
-                    if (currentItemIndex !== -1) {
-                        updatedCartItems[existingItemIndex].quantity += updatedCartItems[currentItemIndex].quantity;
-                        updatedCartItems.splice(currentItemIndex, 1);
-                    }
-
-                    setCartItems(updatedCartItems);
-                    return
-                }
+                updateCartItems({...item}, size)
                 updateChosenSize(size)
             }}
             >
@@ -274,8 +255,7 @@ function DisplayCart() {
     )
 }
 
-const getTotalItems = (cartItems
-) => {
+const getTotalItems = (cartItems) => {
     let total = 0
     for (let i = 0; i < cartItems.length; i++) {
         total += cartItems[i].quantity

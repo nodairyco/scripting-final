@@ -13,21 +13,20 @@ function App() {
     const [cartItems, setCartItems] = useState(defaultCartItems)
     const [womenClothing, setWomenClothing] = useState(womensClothing)
 
-    const updateCartItems = (newItem) => {
-
-        if (!cartItems.find((item) => item.id === newItem.id && item.chosenSize === newItem.chosenSize)) {
+    const updateCartItems = (newItem, newSize) => {
+        if (!cartItems.find((item) => item.id === newItem.id && item.chosenSize === newSize)) {
             setCartItems([...cartItems, newItem])
             return
         }
 
-        const updatedList = cartItems.map((item) => {
-            if (item.id === newItem.id && item.chosenSize === item.chosenSize) {
-                return {...item, quantity: item.quantity + newItem.quantity}
-            }
-            return item
-        })
+        if (newItem.chosenSize !== newSize) {
+            const newItemIndex = cartItems.findIndex((x) => x.id === newItem.id && x.chosenSize === newItem.chosenSize)
+            cartItems.splice(newItemIndex, 1)
+        }
+        const index = cartItems.findIndex((x) => x.id === newItem.id && x.chosenSize === newSize)
+        cartItems[index] = {...cartItems[index], quantity: cartItems[index].quantity + newItem.quantity}
 
-        setCartItems(updatedList)
+        setCartItems([...cartItems])
     }
 
     return (
