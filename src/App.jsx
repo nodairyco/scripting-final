@@ -1,27 +1,36 @@
-import {lazy, Suspense, useState} from 'react'
+import {createContext, lazy, Suspense, useState} from 'react'
 import {Navigate, Route, Routes} from "react-router-dom"
 import TopBar from "./modules/TopBar.jsx"
 import css from './App.module.css'
+
+export const cartContext = createContext()
+export const clothingContext = createContext()
+export const currencyContext = createContext()
 
 function App() {
 
     const Home = lazy(() => import('./modules/Home.jsx'))
     const ProductDetails = lazy(() => import('./modules/ProductDetails.jsx'))
     const [currency, setCurrency] = useState('dollar')
-    const [cartItems, setCartItems] = useState([])
+    const [cartItems, setCartItems] = useState(defaultCartItems)
     const [womenClothing, setWomenClothing] = useState(womensClothing)
 
     return (
         <>
-            <TopBar currency={currency} setCurrency={setCurrency}/>
-            <Suspense fallback={<div>Loading...</div>}>
-                <Routes>
-                    <Route path='/clothes/:category'
-                           element={<Home womenClothing={womenClothing} currency={currency}/>}/>
-                    <Route path='/' element={<Navigate to='/clothes/women'/>}/>
-                    <Route path='/clothes/:category/:id' element={<ProductDetails/>}/>
-                </Routes>
-            </Suspense>
+            <currencyContext.Provider value={{currency, setCurrency}}>
+                <clothingContext.Provider value={{womenClothing, setWomenClothing}}>
+                    <cartContext.Provider value={{cartItems, setCartItems}}>
+                        <TopBar currency={currency} setCurrency={setCurrency}/>
+                        <Suspense fallback={<LoadingComponent/>}>
+                            <Routes>
+                                <Route path='/clothes/:category' element={<Home currency={currency}/>}/>
+                                <Route path='/' element={<Navigate to='/clothes/women'/>}/>
+                                <Route path='/clothes/:category/:id' element={<ProductDetails/>}/>
+                            </Routes>
+                        </Suspense>
+                    </cartContext.Provider>
+                </clothingContext.Provider>
+            </currencyContext.Provider>
         </>
     )
 }
@@ -79,4 +88,40 @@ const womensClothing = [
     }
 ]
 
+const defaultCartItems = [
+    {
+        id: 2,
+        name: 'Gray Cotton Sweatshirt',
+        price: 40.00,
+        availableSize: ['S', 'M', 'L', 'XL'],
+        stock: [5, 5, 5, 5],
+        description: 'Classic gray sweatshirt, perfect for any casual and semi-formal occasion.',
+        image: '/images/woman2.png',
+        brand: 'Long Long Ltd.',
+        chosenSize: 'M',
+        quantity: 2
+    },
+    {
+        id: 5,
+        name: 'Pink Sweatshirt',
+        price: 400.00,
+        availableSize: ['S', 'M', 'L', 'XL'],
+        stock: [0, 0, 0, 0],
+        description: 'Very popular, amazing, and fast-selling pink BEAUTY!',
+        image: '/images/pink-sweatshirt.jpg',
+        brand: 'Yhorm style Fashion',
+        chosenSize: 'L',
+        quantity: 1
+    }
+]
+
 export default App
+
+
+function LoadingComponent(){
+    return (
+        <div className={css.loadingDiv}>
+            Loading...
+        </div>
+    )
+}

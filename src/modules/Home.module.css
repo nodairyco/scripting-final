@@ -47,6 +47,8 @@
     font-size: 24px;
     font-weight: 400;
     color: var(--text-out-of-stock);
+    width: 100%;
+    text-align: center;
 }
 
 .cardImg {

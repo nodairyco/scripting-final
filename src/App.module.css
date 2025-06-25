@@ -1,10 +1,10 @@
-:root{
+:root {
     --text-color-1: #1D1F22;
     --text-focused: #5ECE7B;
     --text-out-of-stock: #8D8F9A;
 }
 
-root, html, body{
+root, html, body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -17,5 +17,13 @@ root, html, body{
     flex-direction: column;
     padding-top: 80px;
     margin: 0 80px 50px;
+}
+
+.loadingDiv {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
 }
 

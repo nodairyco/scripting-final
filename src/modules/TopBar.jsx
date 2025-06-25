@@ -1,24 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import css from './TopBar.module.css'
 import {Link, useLocation} from "react-router-dom";
+import {cartContext, currencyContext} from "../App.jsx";
 
 
-function TopBar({currency, setCurrency}) {
-
+export default function TopBar() {
+    const {currency, setCurrency} = useContext(currencyContext)
     const [focusedCurrencyChange, setFocusedCurrencyChange] = useState(false);
+    const [activateShoppingCart, setActivateShoppingCart] = useState(false);
     const location = useLocation()
-    const getCurrency = (currency) => {
-        switch (currency) {
-            case 'dollar':
-                return '$';
-            case 'euro':
-                return '€';
-            case 'lari':
-                return '₾';
-            default:
-                return '$';
-        }
-    }
 
     return (
         <header className={css.topbarContainer}>
@@ -81,16 +71,194 @@ function TopBar({currency, setCurrency}) {
                                 }}>
                                     ₾ GEL
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     }
                 </a>
                 <div className={css.shoppingCart}>
+                    <img src="/EmptyCart.svg" width="18px" height="18px" alt="Cart Icon"
+                         className={css.shoppingCartIcon}
+                         onClick={() => {
+                             setActivateShoppingCart(!activateShoppingCart)
+                         }}/>
+                    {
+                        activateShoppingCart &&
+                        <DisplayCart/>
+                    }
 
+                    {
+                        activateShoppingCart
+                        &&
+                        <div className={css.shoppingCartCloseOverlay}
+                             onClick={() => setActivateShoppingCart(false)}/>
+                    }
                 </div>
             </div>
         </header>
     );
 }
 
-export default TopBar;
+function DisplayCart() {
+    const {cartItems, setCartItems} = useContext(cartContext)
+    const {currency} = useContext(currencyContext)
+
+    const getTotalItems = (cartItems) => {
+        let total = 0
+        for (let i = 0; i < cartItems.length; i++) {
+            total += cartItems[i].quantity
+        }
+        return total
+    }
+
+    function getPrice(price, currency) {
+        switch (currency) {
+            case 'euro':
+                return (price * 0.85).toFixed(2)
+            case 'lari':
+                return (price * 3.2).toFixed(2)
+            default:
+                return price.toFixed(2)
+        }
+    }
+
+    const getTotalPrice = (cartItems, currency) => {
+        let price = 0.0
+        if (cartItems) {
+            for (let i = 0; i < cartItems.length; i++) {
+                price += cartItems[i].price * cartItems[i].quantity
+            }
+        }
+        return getPrice(price, currency);
+    }
+
+    const updateQuantity = (item, bool) => {
+        let updatedCartItems = cartItems.map(cartItem => {
+            if (cartItem.id === item.id) {
+                if (cartItem.quantity > 0)
+                    return {...cartItem, quantity: bool ? cartItem.quantity + 1 : cartItem.quantity - 1}
+                if (cartItem.quantity === 0 && !bool)
+                    return {...cartItem, quantity: 0}
+                if (bool && cartItem.quantity === 0)
+                    return {...cartItem, quantity: 1}
+            }
+            return cartItem
+        });
+        setCartItems(updatedCartItems);
+    }
+
+    return (
+        <div className={css.shoppingCartOverlay}>
+            <div className={css.cartHeader}>
+                <span>My Bag</span>, {getTotalItems(cartItems)} items
+            </div>
+            <div className={css.cartItemsContainer}>
+                {
+                    cartItems ?
+                        cartItems.map((item, index) => (
+                            <div key={index} className={css.cartItem}>
+                                <div className={css.cartItemDetails}>
+                                    <p>
+                                        {item.brand}
+                                    </p>
+                                    <p>
+                                        {item.name}
+                                    </p>
+                                    <p>
+                                        {getCurrency(currency)}{getPrice(item.price, currency)}
+                                    </p>
+                                    <div className={css.cartItemSizeControl}>
+                                        <p>
+                                            Size:
+                                        </p>
+                                        <div className={css.cartItemSizeControlList}>
+                                            {
+                                                item.availableSize.map((size, index) => {
+
+                                                    let isCurrentSizeChosen = item.chosenSize === size
+
+                                                    const updateChosenSize = (newSize) => {
+                                                        if (isCurrentSizeChosen) {
+                                                            return
+                                                        }
+
+
+                                                        let lst =
+                                                            cartItems.map((itemToUpdate) => {
+                                                                if (itemToUpdate.id === item.id)
+                                                                    return {...itemToUpdate, chosenSize: newSize}
+
+                                                                return itemToUpdate
+                                                            })
+                                                        setCartItems(lst)
+                                                    }
+
+                                                    return (
+                                                        <a key={index} className={
+                                                            isCurrentSizeChosen ?
+                                                                css.cartItemSizeBtnChosen : css.cartItemSizeBtn
+                                                        } onClick={() => {
+                                                            updateChosenSize(size)
+                                                        }}>
+                                                            {size}
+                                                        </a>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={css.cartItemThumbnail}>
+                                    <div className={css.cartItemQuantityControl}>
+                                        <a onClick={() => {
+                                            updateQuantity(item, true)
+                                        }}>
+                                            +
+                                        </a>
+                                        <p>
+                                            {item.quantity}
+                                        </p>
+                                        <a onClick={() => {
+                                            updateQuantity(item, false)
+                                        }}>
+                                            -
+                                        </a>
+                                    </div>
+                                    <img className={css.cartItemImage} alt='cart item' src={item.image}/>
+                                </div>
+                            </div>
+                        ))
+                        : "No items in cart"
+                }
+            </div>
+            <div className={css.cartTotal}>
+                <span>
+                    Total
+                </span>
+                <span className={css.cartTotalPrice}>
+                    {getCurrency(currency)}{getTotalPrice(cartItems, currency)} 
+                </span>
+            </div>
+            <div className={css.cartBtnArr}>
+                <a className={css.cartViewBagBtn}>
+                    VIEW BAG
+                </a>
+                <a className={css.cartCheckoutBtn}>
+                    CHECK OUT
+                </a>
+            </div>
+        </div>
+    )
+}
+
+const getCurrency = (currency) => {
+    switch (currency) {
+        case 'dollar':
+            return '$';
+        case 'euro':
+            return '€';
+        case 'lari':
+            return '₾';
+        default:
+            return '$';
+    }
+}

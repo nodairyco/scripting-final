@@ -1,9 +1,19 @@
-import React, {useState} from 'react';
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import React, {useContext} from 'react';
+import {Link, useNavigate, useParams} from "react-router-dom";
 import css from './Home.module.css'
 import outerCss from '../App.module.css'
+import {clothingContext} from "../App.jsx";
 
-export default function Home({womenClothing, menClothing, childrenClothing, currency}) {
+export default function Home({currency}) {
+
+    const {
+        womenClothing,
+        setWomenClothing,
+        menClothing,
+        setMenClothing,
+        childrenClothing,
+        setChildrenClothing
+    } = useContext(clothingContext)
 
     const params = useParams()
     const getCategoryTitle = (category) => {
@@ -85,7 +95,7 @@ function ClothesCard({clothing, currency, category}) {
             {
                 isItOutOfStock(clothing.stock) &&
                 <div className={css.clothesCardOutOfStockText}>
-                    Out of Stock
+                    OUT OF STOCK
                 </div>
             }
             <p className={css.cardDetailsNameContainer}>{clothing.name}</p>
