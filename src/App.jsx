@@ -1,9 +1,8 @@
-import {createContext, lazy, Suspense, useState} from 'react'
-import {Navigate, Route, Routes, UNSAFE_DataRouterContext} from "react-router-dom"
+import {lazy, Suspense, useState} from 'react'
+import {Navigate, Route, Routes} from "react-router-dom"
 import TopBar from "./modules/TopBar.jsx"
 import css from './App.module.css'
-
-export const context = createContext()
+import {context} from "./Context.jsx";
 
 function App() {
 

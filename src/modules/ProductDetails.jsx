@@ -1,7 +1,8 @@
 import React, {useContext, useState} from 'react';
 import {useLocation, useParams} from "react-router-dom";
 import css from './ProductDetails.module.css'
-import {context} from "../App.jsx";
+
+import {context} from "../Context.jsx";
 
 function ProductDetails() {
     const {womenClothing, menClothing, childrenClothing, currency, updateCartItems} = useContext(context)

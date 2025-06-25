@@ -2,7 +2,8 @@ import React, {useContext, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import css from './Home.module.css'
 import outerCss from '../App.module.css'
-import {context} from "../App.jsx";
+
+import {context} from "../Context.jsx";
 
 export default function Home({currency}) {
 

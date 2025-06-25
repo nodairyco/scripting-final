@@ -1,7 +1,8 @@
 import React, {useContext, useState} from 'react';
 import css from './TopBar.module.css'
 import {Link, useLocation} from "react-router-dom";
-import {context} from "../App.jsx";
+
+import {context} from "../Context.jsx";
 
 
 export default function TopBar() {
