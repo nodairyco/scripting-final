@@ -1,0 +1,159 @@
+.cartPage {
+    margin: 40px 80px;
+    padding-top: 60px;
+    padding-bottom: 100px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.cartPage h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.cartItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0;
+    border-top: 1px solid #E5E5E5;
+}
+
+.details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.details h3 {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.details p {
+    font-size: 16px;
+    margin: 0;
+    color: var(--text-color-1);
+}
+
+.details strong {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+.size {
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.size p {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sizeSelector {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.sizeBox {
+    border: 1px solid black;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.1s ease;
+}
+
+.sizeBox:hover {
+    background-color: black;
+    color: white;
+}
+
+.sizeBoxSelected {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+.sizeBoxSelected:hover {
+    background-color: black;
+    color: white;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 20px;
+}
+
+.controls button {
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    font-weight: 500;
+    border: 1px solid #1D1F22;
+    background: none;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.controls button:hover {
+    background-color: #1D1F22;
+    color: white;
+}
+
+.controls span {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.image img {
+    width: 150px;
+    height: auto;
+    object-fit: cover;
+}
+
+.summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 40px;
+    font-size: 18px;
+}
+
+.summary p {
+    margin: 0;
+}
+
+.summary strong {
+    font-weight: 700;
+}
+
+.continueBtn {
+    margin-top: 20px;
+    padding: 14px 32px;
+    background-color: var(--text-focused);
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    width: fit-content;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.1s ease;
+}
+
+.continueBtn:hover {
+    background-color: #4fb86b;
+}
