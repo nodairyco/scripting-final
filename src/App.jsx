@@ -7,6 +7,7 @@ import {context} from "./Context.jsx";
 function App() {
 
     const Home = lazy(() => import('./modules/Home.jsx'))
+    const Cart = lazy(() => import('./modules/Cart.jsx'))
     const ProductDetails = lazy(() => import('./modules/ProductDetails.jsx'))
     const [currency, setCurrency] = useState('dollar')
     const [cartItems, setCartItems] = useState(defaultCartItems)
@@ -45,6 +46,7 @@ function App() {
                         <Route path='/clothes/:category' element={<Home currency={currency}/>}/>
                         <Route path='/' element={<Navigate to='/clothes/women'/>}/>
                         <Route path='/clothes/:category/:id' element={<ProductDetails/>}/>
+                        <Route path='/cart' element={<Cart />} />
                     </Routes>
                 </Suspense>
             </context.Provider>

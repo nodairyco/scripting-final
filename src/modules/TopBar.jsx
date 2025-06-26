@@ -245,9 +245,9 @@ function DisplayCart() {
                 </span>
             </div>
             <div className={css.cartBtnArr}>
-                <a className={css.cartViewBagBtn}>
+                <Link to="/cart" className={css.cartViewBagBtn}>
                     VIEW BAG
-                </a>
+                </Link>
                 <a className={css.cartCheckoutBtn}>
                     CHECK OUT
                 </a>
