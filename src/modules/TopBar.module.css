@@ -123,9 +123,9 @@
     position: absolute; 
     top: -10px;
     right: -15px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
     height: 14px;
     padding: 2px 5px;
     color: white;
@@ -294,25 +294,43 @@
 }
 
 .cartViewBagBtn {
-    border: 1px solid var(--text-color-1);
-    transition: background-color 0.1s ease;
+    background: #fff;
+    color: #222;
+    border: 2px solid #222;
+    font-size: 16px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
 }
 
 .cartViewBagBtn:hover {
-    background: var(--text-color-1);
-    color: white;
+    background: #222;
+    color: #fff;
 }
 
 .cartCheckoutBtn {
-    background: var(--text-focused);
-    color: white;
-    transition: background-color 0.1s ease;
+    background: #5ECE7B;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
 }
 
 .cartCheckoutBtn:hover {
-    background: white;
-    color: var(--text-focused);
-    border: 1px solid var(--text-focused);
+    background: #4caf50;
+    color: #fff;
 }
 
 .shoppingCartCloseOverlay {

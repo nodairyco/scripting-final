@@ -8,8 +8,12 @@ function App() {
 
     const Home = lazy(() => import('./modules/Home.jsx'))
     const ProductDetails = lazy(() => import('./modules/ProductDetails.jsx'))
+    const ShippingInfo = lazy(() => import('./modules/ShippingInfo.jsx'))
+    const Cart = lazy(() => import('./modules/Cart.jsx'))
+    const ShippingMethod = lazy(() => import('./modules/ShippingMethod.jsx'))
+    const Payment = lazy(() => import('./modules/Payment.jsx'))
     const [currency, setCurrency] = useState('dollar')
-    const [cartItems, setCartItems] = useState(defaultCartItems)
+    const [cartItems, setCartItems] = useState([])
     const [womenClothing, setWomenClothing] = useState(womensClothing)
 
     const updateCartItems = (newItem, newSize) => {
@@ -45,6 +49,10 @@ function App() {
                         <Route path='/clothes/:category' element={<Home currency={currency}/>}/>
                         <Route path='/' element={<Navigate to='/clothes/women'/>}/>
                         <Route path='/clothes/:category/:id' element={<ProductDetails/>}/>
+                        <Route path='/cart' element={<Cart/>}/>
+                        <Route path='/checkout/shipping-info' element={<ShippingInfo/>}/>
+                        <Route path='/checkout/shipping-method' element={<ShippingMethod/>}/>
+                        <Route path='/checkout/payment' element={<Payment/>}/>
                     </Routes>
                 </Suspense>
             </context.Provider>
@@ -104,7 +112,7 @@ const womensClothing = [
         brand: 'Yhorm style Fashion'
     }
 ]
-
+// test cart items
 const defaultCartItems = [
     {
         id: 2,

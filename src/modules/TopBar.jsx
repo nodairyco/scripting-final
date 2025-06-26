@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import css from './TopBar.module.css'
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 import {context} from "../Context.jsx";
 
@@ -107,6 +107,9 @@ export default function TopBar() {
 
 function DisplayCart() {
     const {cartItems, setCartItems, currency, updateCartItems} = useContext(context)
+    const navigate = useNavigate();
+
+    const visibleCartItems = cartItems.filter(item => item.quantity > 0);
 
     function getPrice(price, currency) {
         switch (currency) {
@@ -145,24 +148,19 @@ function DisplayCart() {
     }
 
     function mapItemSize(size, index, item) {
-
         let isCurrentSizeChosen = item.chosenSize === size
-
         const updateChosenSize = (newSize) => {
             if (isCurrentSizeChosen) {
                 return
             }
-
             let lst =
                 cartItems.map((itemToUpdate) => {
                     if (itemToUpdate.id === item.id)
                         return {...itemToUpdate, chosenSize: newSize}
-
                     return itemToUpdate
                 })
             setCartItems(lst)
         }
-
         return (
             <a key={index} className={
                 isCurrentSizeChosen ?
@@ -173,9 +171,7 @@ function DisplayCart() {
                 updateChosenSize(size)
             }}
             >
-                {
-                    size
-                }
+                {size}
             </a>
         )
     }
@@ -183,12 +179,12 @@ function DisplayCart() {
     return (
         <div className={css.shoppingCartOverlay}>
             <div className={css.cartHeader}>
-                <span>My Bag</span>, {getTotalItems(cartItems)} items
+                <span>My Bag</span>, {getTotalItems(visibleCartItems)} items
             </div>
             <div className={css.cartItemsContainer}>
                 {
-                    cartItems ?
-                        cartItems.map((item, index) => (
+                    visibleCartItems.length > 0 ?
+                        visibleCartItems.map((item, index) => (
                             <div key={index} className={css.cartItem}>
                                 <div className={css.cartItemDetails}>
                                     <p>
@@ -241,16 +237,16 @@ function DisplayCart() {
                     Total
                 </span>
                 <span className={css.cartTotalPrice}>
-                    {getCurrency(currency)}{getTotalPrice(cartItems, currency)} 
+                    {getCurrency(currency)}{getTotalPrice(visibleCartItems, currency)} 
                 </span>
             </div>
             <div className={css.cartBtnArr}>
-                <a className={css.cartViewBagBtn}>
+                <button className={css.cartViewBagBtn} onClick={() => navigate('/cart')}>
                     VIEW BAG
-                </a>
-                <a className={css.cartCheckoutBtn}>
+                </button>
+                <button className={css.cartCheckoutBtn} onClick={() => navigate('/checkout/shipping-info')}>
                     CHECK OUT
-                </a>
+                </button>
             </div>
         </div>
     )

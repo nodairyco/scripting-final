@@ -1,0 +1,32 @@
+.formHeader {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+.inputRow {
+  display: flex;
+  gap: 12px;
+}
+.inputField {
+  padding: 10px 12px;
+  border: 1px solid #b7e2c6;
+  border-radius: 2px;
+  font-size: 15px;
+  outline: none;
+  flex: 1;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+.inputField:focus {
+  border-color: #4caf50;
+}
+.errorMsg {
+  color: #d32f2f;
+  font-size: 13px;
+  margin: 2px 0 8px 2px;
+}
+.buttonRow {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+} 
