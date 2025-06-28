@@ -90,7 +90,7 @@ export default function TopBar() {
                     }
                     {
                         activateShoppingCart &&
-                        <DisplayCart/>
+                        <DisplayCart setActivateShoppingCart={setActivateShoppingCart}/>
                     }
 
                     {
@@ -105,7 +105,7 @@ export default function TopBar() {
     );
 }
 
-function DisplayCart() {
+function DisplayCart({setActivateShoppingCart}) {
     const {cartItems, setCartItems, currency, updateCartItems} = useContext(context)
     const navigate = useNavigate();
 
@@ -241,12 +241,18 @@ function DisplayCart() {
                 </span>
             </div>
             <div className={css.cartBtnArr}>
-                <button className={css.cartViewBagBtn} onClick={() => navigate('/cart')}>
+                <a className={css.cartViewBagBtn} onClick={() => {
+                    navigate('/cart')
+                    setActivateShoppingCart(false)
+                }}>
                     VIEW BAG
-                </button>
-                <button className={css.cartCheckoutBtn} onClick={() => navigate('/checkout/shipping-info')}>
+                </a>
+                <a className={css.cartCheckoutBtn} onClick={() => {
+                    navigate('/checkout/shipping-info')
+                    setActivateShoppingCart(false)
+                }}>
                     CHECK OUT
-                </button>
+                </a>
             </div>
         </div>
     )
