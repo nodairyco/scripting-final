@@ -34,9 +34,9 @@ export default function TopBar() {
                 </Link>
             </nav>
             <div className={css.logoContainer}>
-                <a>
+                <Link to='/clothes/women'>
                     <img src="/logo.svg" alt="Logo" width='30px' height='30px'/>
-                </a>
+                </Link>
             </div>
             <div className={css.miscContainer}>
                 <a className={css.currencyChanger} onClick={() => {
