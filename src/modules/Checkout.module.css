@@ -1,0 +1,332 @@
+.main {
+    padding: 90px 0 0;
+    display: flex;
+    height: calc(100vh - 90px);
+}
+
+.contentDiv {
+    flex: 1;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding: 27px 45px 0 150px;
+    gap: 60px;
+}
+
+.link {
+    background: none;
+    border: none;
+    color: #4caf50;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0 8px;
+}
+
+.cartContainer {
+    flex: 1.125;
+    background: #F2F2F2;
+    height: calc(100% - 80);
+    padding: 80px 0 0 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.totalContainer {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 80px);
+}
+
+.separator {
+    width: 100%;
+    border: 1px solid #56B28033;
+}
+
+.priceContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.priceContainer .price .priceType {
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25.6px;
+    letter-spacing: -0.9px;
+    vertical-align: bottom;
+    color: rgba(39, 39, 39, 1);
+}
+
+.priceContainer .total {
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 25.6px;
+    letter-spacing: -0.9px;
+    text-align: right;
+    vertical-align: bottom;
+    color: rgba(39, 39, 39, 1);
+}
+
+.priceType {
+    color: rgba(97, 97, 97, 1);
+}
+
+.cartList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: calc(100% - 250px);
+    overflow-y: scroll;
+    overscroll-behavior: none;
+    padding-top: 10px;
+}
+
+.cartItemImg {
+    max-height: 150px;
+    padding: 15px 25px;
+    background: white;
+    max-width: 200px;
+}
+
+.imgCont {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    position: relative;
+    width: 250px;
+}
+
+.itemQnty {
+    position: absolute;
+    background: #56B280;
+    right: -5px;
+    top: -5px;
+    width: 22px;
+    height: 22px;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    border-radius: 22px;
+}
+
+.cartItem {
+    display: flex;
+    gap: 40px;
+}
+
+.detailContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.detailContainer .name {
+    margin: 0;
+    font-family: Raleway, sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 27px;
+    vertical-align: middle;
+}
+
+.detailContainer .price {
+    color: var(--text-focused);
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 57.6px;
+    letter-spacing: -0.9px;
+    vertical-align: middle;
+}
+
+.divHeader {
+    width: fit-content;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 20px;
+}
+
+.formHeadContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.formHeader {
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25.6px;
+    letter-spacing: -0.9px;
+}
+
+.inputField {
+    height: 40px;
+    border: 1px solid var(--text-focused);
+    padding-left: 18px;
+    padding-right: 0;
+    width: calc(100% - 20px);
+}
+
+.inputField::placeholder {
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 25.6px;
+    letter-spacing: 0px;
+}
+
+.inputField option::placeholder {
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 25.6px;
+    letter-spacing: 0px;
+}
+
+
+.inputField:focus {
+    outline: 1px solid #65de68;
+}
+
+.inputRow {
+    flex: 1;
+    float: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 60px;
+    width: 100%;
+}
+
+.inputRow select {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 18px;
+}
+
+.inputContainer {
+    flex: 1;
+    width: 100%;
+}
+
+.errorMsg {
+    color: red;
+}
+
+.buttonRow {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.primary {
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 4px;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.primary:hover {
+    background: #388e3c;
+}
+
+.infoBox {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 18px 24px;
+    margin-bottom: 32px;
+    max-width: calc(400px - 48px);
+}
+
+.infoRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.infoLabel {
+    color: #888;
+    min-width: 60px;
+}
+
+.shippingMethods {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.methodOption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 18px 24px;
+    background: #fff;
+    transition: border 0.2s;
+}
+
+.methodLabel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #1D1F22;
+}
+
+.rad, .selected {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #1D1F22;
+    border-radius: 20px;
+}
+
+.methodPrice {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+}
+
+.methodPrice.free {
+    color: #4caf50;
+}
+
+.active {
+    color: #272727;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+.prev {
+    color: #56B280;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}

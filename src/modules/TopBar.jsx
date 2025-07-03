@@ -6,7 +6,7 @@ import {context} from "../Context.jsx";
 
 
 export default function TopBar() {
-    const {currency, setCurrency, cartItems} = useContext(context)
+    const {currency, setCurrency, cartItems, getCurrency} = useContext(context)
     const [focusedCurrencyChange, setFocusedCurrencyChange] = useState(false);
     const [activateShoppingCart, setActivateShoppingCart] = useState(false);
     const location = useLocation()
@@ -34,9 +34,9 @@ export default function TopBar() {
                 </Link>
             </nav>
             <div className={css.logoContainer}>
-                <a>
+                <Link to='/clothes/women'>
                     <img src="/logo.svg" alt="Logo" width='30px' height='30px'/>
-                </a>
+                </Link>
             </div>
             <div className={css.miscContainer}>
                 <a className={css.currencyChanger} onClick={() => {
@@ -106,18 +106,7 @@ export default function TopBar() {
 }
 
 function DisplayCart() {
-    const {cartItems, setCartItems, currency, updateCartItems} = useContext(context)
-
-    function getPrice(price, currency) {
-        switch (currency) {
-            case 'euro':
-                return (price * 0.85).toFixed(2)
-            case 'lari':
-                return (price * 3.2).toFixed(2)
-            default:
-                return price.toFixed(2)
-        }
-    }
+    const {cartItems, setCartItems, currency, updateCartItems, getCurrency, getPrice} = useContext(context)
 
     const getTotalPrice = (cartItems, currency) => {
         let price = 0.0
@@ -248,9 +237,9 @@ function DisplayCart() {
                 <Link to="/cart" className={css.cartViewBagBtn}>
                     VIEW BAG
                 </Link>
-                <a className={css.cartCheckoutBtn}>
+                <Link to="/checkout/details" className={css.cartCheckoutBtn}>
                     CHECK OUT
-                </a>
+                </Link>
             </div>
         </div>
     )
@@ -262,17 +251,4 @@ const getTotalItems = (cartItems) => {
         total += cartItems[i].quantity
     }
     return total
-}
-
-const getCurrency = (currency) => {
-    switch (currency) {
-        case 'dollar':
-            return '$';
-        case 'euro':
-            return '€';
-        case 'lari':
-            return '₾';
-        default:
-            return '$';
-    }
 }
