@@ -3,32 +3,10 @@ import { context } from '../Context.jsx';
 import css from './Cart.module.css';
 import { Link } from 'react-router-dom';
 
-const getPrice = (price, currency) => {
-    switch (currency) {
-        case 'euro':
-            return (price * 0.85).toFixed(2);
-        case 'lari':
-            return (price * 3.2).toFixed(2);
-        default:
-            return price.toFixed(2);
-    }
-};
 
-const getCurrency = (currency) => {
-    switch (currency) {
-        case 'dollar':
-            return '$';
-        case 'euro':
-            return '€';
-        case 'lari':
-            return '₾';
-        default:
-            return '$';
-    }
-};
 
 const Cart = () => {
-    const { cartItems, setCartItems, currency } = useContext(context);
+    const { cartItems, setCartItems, currency, getPrice, getCurrency } = useContext(context);
 
     const getTotal = () => {
         const rawTotal = cartItems.reduce(
@@ -125,7 +103,7 @@ const Cart = () => {
                     <strong>Total:</strong>{' '}
                     {getCurrency(currency)}{getTotal()}
                 </p>
-                <Link to="/" className={css.continueBtn}>
+                <Link to="/checkout/details" className={css.continueBtn}>
                     CONTINUE
                 </Link>
             </div>
