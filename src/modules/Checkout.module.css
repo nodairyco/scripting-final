@@ -254,6 +254,7 @@
     border-radius: 6px;
     padding: 18px 24px;
     margin-bottom: 32px;
+    max-width: calc(400px - 48px);
 }
 
 .infoRow {
@@ -283,13 +284,7 @@
     border-radius: 6px;
     padding: 18px 24px;
     background: #fff;
-    cursor: pointer;
     transition: border 0.2s;
-}
-
-.methodOption.selected {
-    border: 2px solid #4caf50;
-    background: #f6fff8;
 }
 
 .methodLabel {
@@ -298,6 +293,18 @@
     gap: 10px;
     font-size: 16px;
     font-weight: 500;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #1D1F22;
+}
+
+.rad, .selected {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #1D1F22;
+    border-radius: 20px;
 }
 
 .methodPrice {
@@ -310,3 +317,16 @@
     color: #4caf50;
 }
 
+.active {
+    color: #272727;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+.prev {
+    color: #56B280;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
